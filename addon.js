@@ -1,28 +1,25 @@
 var sealjs = require('node-cmake')('sealjs');
 
+/*
+  Initialize your SEAL context, with various security parameters.
+  SEALContext expects 3 parameters:
+    - Polynomial degree modulus (should be power of two)
+        - Increase for higher security, less performance
+    - Coefficient modulus (must be 128, 192, or 256)
+        - Increase for higher security, less noise budget
+    - Plaintext modulus
+        - Increase for bigger plaintext space, less noise budget
+  For a thorough guide on the meaning of these parameters, check
+  out the official SEAL examples.
+*/
 const context = new sealjs.SEALContext(2048, 128, 65536);
+
+// Generate a public/secret key pair
 const keygen = new sealjs.KeyGenerator(context);
 const pk = new sealjs.PublicKey(keygen);
 const sk = new sealjs.SecretKey(keygen);
 
+
+// These keys can be saved as a binary file
 pk.save('public.key')
 sk.save('secret.key')
-
-/*
-var obj = new addon.MyObject(10);
-console.log( obj.plusOne() ); // 11
-console.log( obj.plusOne() ); // 12
-console.log( obj.plusOne() ); // 13
-
-console.log( obj.multiply().value() ); // 13
-console.log( obj.multiply(10).value() ); // 130
-
-var newobj = obj.multiply(-1);
-console.log( newobj.value() ); // -13
-console.log( obj === newobj ); // false
-
-console.log(obj)
-
-var a = {meme: "hi there im pasing stuf"};
-console.log(obj.lookAt(newobj))
-*/
