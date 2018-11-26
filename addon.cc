@@ -1,8 +1,9 @@
 #include <napi.h>
-#include "myobject.h"
+#include "sealcontext.h"
+#include "seal/seal.h"
 
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
-  return MyObject::Init(env, exports);
+    return SEALContext::Init(env, exports);
 }
 
 NODE_API_MODULE(addon, InitAll)

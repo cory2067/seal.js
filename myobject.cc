@@ -40,6 +40,10 @@ Napi::Value MyObject::GetValue(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), num);
 }
 
+double MyObject::GetInternalValue() {
+    return this->value_;
+}
+
 Napi::Value MyObject::PlusOne(const Napi::CallbackInfo& info) {
   this->value_ = this->value_ + 1;
 
@@ -60,7 +64,10 @@ Napi::Value MyObject::Multiply(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value MyObject::LookAt(const Napi::CallbackInfo& info) {
-    std::cout << info[0].As<Napi::Object>().Get("meme").As<Napi::String>().Utf8Value() << std::endl;
+    //std::cout << info[0].As<Napi::Object>().Get("meme").As<Napi::String>().Utf8Value() << std::endl;
 
-    return Napi::Number::New(info.Env(), 4);
+    Napi::Object obj = info[0].As<Napi::Object>();
+    MyObject * target = Napi::ObjectWrap<MyObject>::Unwrap(obj);
+
+    return Napi::Number::New(info.Env(), target->GetInternalValue());
 }

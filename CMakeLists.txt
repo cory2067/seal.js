@@ -3,11 +3,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(sealjs VERSION 0.0.1 LANGUAGES CXX)
 
-
 include(NodeJS.cmake)
 nodejs_init()
 
-add_nodejs_module(sealjs addon.cc myobject.cc)
+add_nodejs_module(sealjs addon.cc myobject.cc sealcontext.cc)
 
 # Import SEAL
 find_package(SEAL 3.0.0 EXACT REQUIRED)
