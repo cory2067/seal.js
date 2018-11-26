@@ -3,7 +3,7 @@
 
 Napi::FunctionReference SEALContext::constructor;
 
-Napi::Object SEALContext::Init(Napi::Env env, Napi::Object exports) {
+Napi::Object SEALContext::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "SEALContext", {
@@ -41,6 +41,6 @@ SEALContext::SEALContext(const Napi::CallbackInfo& info) : Napi::ObjectWrap<SEAL
     this->_context = seal::SEALContext::Create(params);
 }
 
-std::shared_ptr<seal::SEALContext> SEALContext::GetInternalInstance() {
+std::shared_ptr<seal::SEALContext> SEALContext::getInternalInstance() {
     return this->_context;
 }

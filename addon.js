@@ -1,6 +1,12 @@
 var sealjs = require('node-cmake')('sealjs');
 
 const context = new sealjs.SEALContext(2048, 128, 65536);
+const keygen = new sealjs.KeyGenerator(context);
+const pk = new sealjs.PublicKey(keygen);
+const sk = new sealjs.SecretKey(keygen);
+
+console.log(keygen);
+
 /*
 var obj = new addon.MyObject(10);
 console.log( obj.plusOne() ); // 11

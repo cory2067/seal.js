@@ -6,7 +6,8 @@
   "private": true,
   "gypfile": true,
   "scripts": {
-      "build": "node_modules/node-cmake/lib/ncmake.js rebuild",
+      "rebuild": "node_modules/node-cmake/lib/ncmake.js rebuild",
+      "build": "node_modules/node-cmake/lib/ncmake.js build",
       "generate-cmake": "node_modules/node-cmake/lib/ncmake.js update"
   },
   "dependencies": {

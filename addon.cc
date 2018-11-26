@@ -1,9 +1,13 @@
 #include <napi.h>
 #include "sealcontext.h"
+#include "keygenerator.h"
 #include "seal/seal.h"
 
-Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
-    return SEALContext::Init(env, exports);
+Napi::Object initAll(Napi::Env env, Napi::Object exports) {
+    KeyGenerator::init(env, exports);
+    PublicKey::init(env, exports);
+    SecretKey::init(env, exports);
+    return SEALContext::init(env, exports);
 }
 
-NODE_API_MODULE(addon, InitAll)
+NODE_API_MODULE(addon, initAll)
