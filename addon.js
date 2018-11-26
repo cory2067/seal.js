@@ -5,7 +5,8 @@ const keygen = new sealjs.KeyGenerator(context);
 const pk = new sealjs.PublicKey(keygen);
 const sk = new sealjs.SecretKey(keygen);
 
-console.log(keygen);
+pk.save('public.key')
+sk.save('secret.key')
 
 /*
 var obj = new addon.MyObject(10);

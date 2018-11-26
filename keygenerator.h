@@ -12,10 +12,6 @@ class KeyGenerator : public Napi::ObjectWrap<KeyGenerator> {
   
  private:
   static Napi::FunctionReference constructor;
-
-  Napi::Value publicKey(const Napi::CallbackInfo& info);
-  Napi::Value secretKey(const Napi::CallbackInfo& info);
-
   std::shared_ptr<seal::KeyGenerator> _generator;
 };
 
@@ -27,7 +23,7 @@ class PublicKey : public Napi::ObjectWrap<PublicKey> {
   
  private:
   static Napi::FunctionReference constructor;
-
+  Napi::Value save(const Napi::CallbackInfo& info);
   std::shared_ptr<seal::PublicKey> _key;
 };
 
@@ -39,7 +35,7 @@ class SecretKey : public Napi::ObjectWrap<SecretKey> {
   
  private:
   static Napi::FunctionReference constructor;
-
+  Napi::Value save(const Napi::CallbackInfo& info);
   std::shared_ptr<seal::SecretKey> _key;
 };
 

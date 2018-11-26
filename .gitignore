@@ -3,3 +3,5 @@ build
 node_modules
 buildy
 NodeJS.cmake
+public.key
+secret.key

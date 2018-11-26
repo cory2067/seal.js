@@ -1,6 +1,7 @@
 #include "keygenerator.h"
 #include "sealcontext.h"
 #include <iostream>
+#include <fstream>
 
 Napi::FunctionReference KeyGenerator::constructor;
 
@@ -8,8 +9,6 @@ Napi::Object KeyGenerator::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "KeyGenerator", {
-    InstanceMethod("publicKey", &KeyGenerator::publicKey),
-    InstanceMethod("secretKey", &KeyGenerator::secretKey),
   });
 
   constructor = Napi::Persistent(func);
@@ -38,16 +37,6 @@ std::shared_ptr<seal::KeyGenerator> KeyGenerator::getInternalInstance() {
     return this->_generator;
 }
 
-Napi::Value KeyGenerator::publicKey(const Napi::CallbackInfo& info) {
-    auto key = this->_generator->public_key();
-
-}
-
-Napi::Value KeyGenerator::secretKey(const Napi::CallbackInfo& info) {
-    auto key = this->_generator->secret_key();
-
-}
-
 // Public Key
 Napi::FunctionReference PublicKey::constructor;
 
@@ -55,6 +44,7 @@ Napi::Object PublicKey::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "PublicKey", {
+    InstanceMethod("save", &PublicKey::save),
   });
 
   constructor = Napi::Persistent(func);
@@ -88,6 +78,21 @@ std::shared_ptr<seal::PublicKey> PublicKey::getInternalInstance() {
     return this->_key;
 }
 
+Napi::Value PublicKey::save(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() < 1 || !info[0].IsString()) {
+        Napi::TypeError::New(env, "Expected a path").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    std::string path = info[0].As<Napi::String>().Utf8Value();
+
+    std::ofstream outfile(path, std::ofstream::binary);
+    this->_key->save(outfile);
+    return env.Null();
+}
+
 // Secret Key
 Napi::FunctionReference SecretKey::constructor;
 
@@ -95,7 +100,7 @@ Napi::Object SecretKey::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "SecretKey", {
-
+    InstanceMethod("save", &SecretKey::save),
   });
 
   constructor = Napi::Persistent(func);
@@ -127,4 +132,19 @@ SecretKey::SecretKey(const Napi::CallbackInfo& info) : Napi::ObjectWrap<SecretKe
 
 std::shared_ptr<seal::SecretKey> SecretKey::getInternalInstance() {
     return this->_key;
+}
+
+Napi::Value SecretKey::save(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() < 1 || !info[0].IsString()) {
+        Napi::TypeError::New(env, "Expected a path").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    std::string path = info[0].As<Napi::String>().Utf8Value();
+
+    std::ofstream outfile(path, std::ofstream::binary);
+    this->_key->save(outfile);
+    return env.Null();
 }
