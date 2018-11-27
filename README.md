@@ -7,3 +7,6 @@ JavaScript bindings for SEAL homomorphic encryption library
 - Run `npm run generate-cmake`
 - Run `npm run rebuild`
 - To try example, run `node .`
+
+# Usage
+View the example at `seal-example.js` for usage of this node addon.
