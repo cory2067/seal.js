@@ -22,7 +22,7 @@ KeyGenerator::KeyGenerator(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Ke
     Napi::Env env = info.Env();
 
     if (info.Length() < 1) {
-        Napi::TypeError::New(env, "Expected 1 argument").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Expected SEAL context as arg").ThrowAsJavaScriptException();
 		return;
     }
 
@@ -30,7 +30,7 @@ KeyGenerator::KeyGenerator(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Ke
     Napi::Object obj = info[0].As<Napi::Object>();
     auto context = Napi::ObjectWrap<SEALContext>::Unwrap(obj)->getInternalInstance();
 
-    this->_generator = std::make_unique<seal::KeyGenerator>(context);
+    this->_generator = std::make_shared<seal::KeyGenerator>(context);
 }
 
 std::shared_ptr<seal::KeyGenerator> KeyGenerator::getInternalInstance() {

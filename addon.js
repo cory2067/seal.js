@@ -24,4 +24,6 @@ pk.save('public.key');
 
 // These files can then be read as a PublicKey/SecretKey
 const pk2 = new sealjs.PublicKey("public.key");
-const sk2 = new sealjs.SecretKey("secret.key");
+
+// Using a public key, generate an encryptor
+const encryptor = new sealjs.Encryptor(context, pk);
