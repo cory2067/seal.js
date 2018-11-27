@@ -12,6 +12,7 @@ class Ciphertext : public Napi::ObjectWrap<Ciphertext> {
   
  private:
   static Napi::FunctionReference constructor;
+  Napi::Value save(const Napi::CallbackInfo& info);
   std::shared_ptr<seal::Ciphertext> _ciphertext;
 };
 

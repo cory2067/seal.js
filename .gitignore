@@ -5,3 +5,4 @@ buildy
 NodeJS.cmake
 public.key
 secret.key
+cipher.seal

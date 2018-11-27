@@ -47,6 +47,10 @@ const ciphertexts = plaintexts.map((plain) => {
     return new seal.Ciphertext(encryptor, plain);
 });
 
+// Ciphertexts can be saved and loaded from files
+ciphertexts[0].save("cipher.seal");
+const new_cipher = new seal.Ciphertext("cipher.seal");
+
 // Evaluator is used to perform homomorphic computations on Ciphertext
 const evaluator = new seal.Evaluator(context);
 

@@ -44,7 +44,7 @@ Napi::Object PublicKey::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "PublicKey", {
-    InstanceMethod("save", &PublicKey::save),
+    InstanceMethod("save", &PublicKey::save)
   });
 
   constructor = Napi::Persistent(func);
