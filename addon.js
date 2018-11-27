@@ -25,5 +25,20 @@ pk.save('public.key');
 // These files can then be read as a PublicKey/SecretKey
 const pk2 = new sealjs.PublicKey("public.key");
 
-// Using a public key, generate an encryptor
+/* 
+   Encoders are used to turn integers into a Plaintext object
+   Plaintext objects store a polynomial representation of the integer
+   Must provide a plaintext modulus as an argument
+*/
+const encoder = new sealjs.Encoder(65536);
+
+// Let's encode some numbers!
+const plaintexts = [
+    new sealjs.Plaintext(encoder, 24),
+    new sealjs.Plaintext(encoder, -9),
+    new sealjs.Plaintext(encoder, 254)
+];
+
+// Encryptor is used to turn Plaintext into Ciphertext
 const encryptor = new sealjs.Encryptor(context, pk);
+
