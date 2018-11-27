@@ -12,6 +12,7 @@ class Encoder : public Napi::ObjectWrap<Encoder> {
   
  private:
   static Napi::FunctionReference constructor;
+  Napi::Value decode(const Napi::CallbackInfo& info);
   std::shared_ptr<seal::IntegerEncoder> _encoder;
 };
 

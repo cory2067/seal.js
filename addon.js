@@ -36,7 +36,7 @@ const encoder = new seal.Encoder(65536);
 const plaintexts = [
     new seal.Plaintext(encoder, 24),
     new seal.Plaintext(encoder, -9),
-    new seal.Plaintext(encoder, 254)
+    new seal.Plaintext(encoder, 1)
 ];
 
 // Encryptor is used to turn Plaintext into Ciphertext
@@ -53,9 +53,13 @@ const evaluator = new seal.Evaluator(context);
 // Let's try adding two numbers
 // The function addInPlace overwrites the first argument
 evaluator.addInPlace(ciphertexts[0], ciphertexts[1]);
+evaluator.addInPlace(ciphertexts[0], ciphertexts[2]);
 
 // If we have the secret key, we can recover the Plaintext using a Decryptor
 const decryptor = new seal.Decryptor(context, sk);
 
 // The Plaintext class can also accept a decryptor/ciphertext pair
 const result = new seal.Plaintext(decryptor, ciphertexts[0]);
+
+// Decode the Plaintext object into an integer
+console.log(encoder.decode(result));

@@ -1,4 +1,5 @@
 #include "encoder.h"
+#include "plaintext.h"
 #include <iostream>
 
 Napi::FunctionReference Encoder::constructor;
@@ -7,7 +8,7 @@ Napi::Object Encoder::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "Encoder", {
-	// no instance methods for now
+    InstanceMethod("decode", &Encoder::decode)
   });
 
   constructor = Napi::Persistent(func);
@@ -32,4 +33,13 @@ Encoder::Encoder(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Encoder>(inf
 
 std::shared_ptr<seal::IntegerEncoder> Encoder::getInternalInstance() {
     return this->_encoder;
+}
+
+Napi::Value Encoder::decode(const Napi::CallbackInfo& info) {
+    // extract seal::Plaintext from parameter 1
+    Napi::Object obj = info[0].As<Napi::Object>();
+    auto plaintext = Napi::ObjectWrap<Plaintext>::Unwrap(obj)->getInternalInstance();
+    int out = this->_encoder->decode_int32(*plaintext);
+
+    return Napi::Number::New(info.Env(), out);
 }

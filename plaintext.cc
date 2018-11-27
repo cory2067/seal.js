@@ -43,7 +43,7 @@ Plaintext::Plaintext(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Plaintex
         auto decryptor = Napi::ObjectWrap<Decryptor>::Unwrap(obj)->getInternalInstance();
         
         // extract seal::Plaintext from parameter 1
-        obj = info[0].As<Napi::Object>();
+        obj = info[1].As<Napi::Object>();
         auto ciphertext = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
 
         this->_plaintext = std::make_shared<seal::Plaintext>();
