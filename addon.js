@@ -43,9 +43,13 @@ const plaintexts = [
 const encryptor = new sealjs.Encryptor(context, pk);
 
 // Encrypt each of our plaintexts
-const ciphertext = plaintexts.forEach((plain) => {
+const ciphertexts = plaintexts.map((plain) => {
     return new sealjs.Ciphertext(encryptor, plain);
 });
 
 // Evaluator is used to perform homomorphic computations on Ciphertext
 const evaluator = new sealjs.Evaluator(context);
+
+// Let's try adding two numbers
+// The function addInPlace overwrites the first argument
+evaluator.addInPlace(ciphertexts[0], ciphertexts[1]);

@@ -13,6 +13,8 @@ class Evaluator : public Napi::ObjectWrap<Evaluator> {
  private:
   static Napi::FunctionReference constructor;
   std::shared_ptr<seal::Evaluator> _evaluator;
+
+  Napi::Value addInPlace(const Napi::CallbackInfo& info);
 };
 
 #endif
