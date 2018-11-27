@@ -6,6 +6,7 @@
 #include "plaintext.h"
 #include "ciphertext.h"
 #include "evaluator.h"
+#include "decryptor.h"
 #include "seal/seal.h"
 
 Napi::Object initAll(Napi::Env env, Napi::Object exports) {
@@ -17,6 +18,7 @@ Napi::Object initAll(Napi::Env env, Napi::Object exports) {
     Plaintext::init(env, exports);
     Ciphertext::init(env, exports);
     Evaluator::init(env, exports);
+    Decryptor::init(env, exports);
     return SEALContext::init(env, exports);
 }
 
