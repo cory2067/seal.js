@@ -56,3 +56,6 @@ evaluator.addInPlace(ciphertexts[0], ciphertexts[1]);
 
 // If we have the secret key, we can recover the Plaintext using a Decryptor
 const decryptor = new seal.Decryptor(context, sk);
+
+// The Plaintext class can also accept a decryptor/ciphertext pair
+const result = new seal.Plaintext(decryptor, ciphertexts[0]);
