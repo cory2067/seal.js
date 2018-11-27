@@ -42,3 +42,7 @@ const plaintexts = [
 // Encryptor is used to turn Plaintext into Ciphertext
 const encryptor = new sealjs.Encryptor(context, pk);
 
+// Encrypt each of our plaintexts
+const ciphertext = plaintexts.forEach((plain) => {
+    return new sealjs.Ciphertext(encryptor, plain);
+});
