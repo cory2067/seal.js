@@ -46,3 +46,6 @@ const encryptor = new sealjs.Encryptor(context, pk);
 const ciphertext = plaintexts.forEach((plain) => {
     return new sealjs.Ciphertext(encryptor, plain);
 });
+
+// Evaluator is used to perform homomorphic computations on Ciphertext
+const evaluator = new sealjs.Evaluator(context);
