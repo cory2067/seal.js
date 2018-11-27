@@ -63,8 +63,11 @@ PublicKey::PublicKey(const Napi::CallbackInfo& info) : Napi::ObjectWrap<PublicKe
     }
 
     if (info[0].IsString()) {
-        // load from string
-        std::cout << "load from string tbd\n";
+        // interpret strings as path
+        std::string path = info[0].As<Napi::String>().Utf8Value();
+        std::ifstream infile(path, std::ifstream::binary);
+        this->_key = std::make_shared<seal::PublicKey>();
+        this->_key->load(infile);
     } else { // assume passed in a keygen
         // extract seal::KeyGenerator from parameter 1
         Napi::Object obj = info[0].As<Napi::Object>();
@@ -117,10 +120,13 @@ SecretKey::SecretKey(const Napi::CallbackInfo& info) : Napi::ObjectWrap<SecretKe
         Napi::TypeError::New(env, "Expected 1 argument").ThrowAsJavaScriptException();
 		return;
     }
-
+    
     if (info[0].IsString()) {
-        // load from string
-        std::cout << "load from string tbd\n";
+        // interpret strings as path
+        std::string path = info[0].As<Napi::String>().Utf8Value();
+        std::ifstream infile(path, std::ifstream::binary);
+        this->_key = std::make_shared<seal::SecretKey>();
+        this->_key->load(infile);
     } else { // assume passed in a keygen
         // extract seal::KeyGenerator from parameter 1
         Napi::Object obj = info[0].As<Napi::Object>();

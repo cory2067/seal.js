@@ -19,7 +19,9 @@ const keygen = new sealjs.KeyGenerator(context);
 const pk = new sealjs.PublicKey(keygen);
 const sk = new sealjs.SecretKey(keygen);
 
-
 // These keys can be saved as a binary file
-pk.save('public.key')
-sk.save('secret.key')
+pk.save('public.key');
+
+// These files can then be read as a PublicKey/SecretKey
+const pk2 = new sealjs.PublicKey("public.key");
+const sk2 = new sealjs.SecretKey("secret.key");
