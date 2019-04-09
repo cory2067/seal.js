@@ -9,7 +9,8 @@ Napi::Object Evaluator::init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(env, "Evaluator", {
-    InstanceMethod("addInPlace", &Evaluator::addInPlace)
+    InstanceMethod("addInPlace", &Evaluator::addInPlace),
+    InstanceMethod("addMany", &Evaluator::addMany)
 	// no instance methods for now
   });
 
@@ -54,6 +55,33 @@ Napi::Value Evaluator::addInPlace(const Napi::CallbackInfo& info) {
     auto y = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
 
     this->_evaluator->add_inplace(*x, *y);
+
+    return env.Null();
+}
+
+Napi::Value Evaluator::addMany(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    
+    if (info.Length() < 2) {
+        Napi::TypeError::New(env, "Expected an input and destination").ThrowAsJavaScriptException();
+		return env.Null();
+    }
+    
+    Napi::Array raw_ciphers = info[0].As<Napi::Array>();
+    
+    Napi::Object obj = info[1].As<Napi::Object>();
+    auto destination = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
+
+    // construct a vector of ciphertexts
+    std::vector<seal::Ciphertext> ciphers;
+    for (uint32_t i = 0; i < raw_ciphers.Length(); i++) {
+        Napi::Object obj = raw_ciphers.Get(i).As<Napi::Object>();
+
+        seal::Ciphertext cipher = *Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
+        ciphers.push_back(cipher);
+    }
+
+    this->_evaluator->add_many(ciphers, *destination);
 
     return env.Null();
 }

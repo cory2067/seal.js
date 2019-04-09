@@ -67,3 +67,24 @@ const result = new seal.Plaintext(decryptor, ciphertexts[0]);
 
 // Decode the Plaintext object into an integer
 console.log(encoder.decode(result));
+
+////////////////////
+
+// Let's try it a different way
+const plaintexts2 = [
+    new seal.Plaintext(encoder, 24),
+    new seal.Plaintext(encoder, -9),
+    new seal.Plaintext(encoder, 1)
+];
+
+// Encrypt each of our plaintexts
+const ciphertexts2 = plaintexts.map((plain) => {
+    return new seal.Ciphertext(encryptor, plain);
+});
+
+// You can also sum an array of ciphertexts using addMany
+const sum = new seal.Ciphertext();
+evaluator.addMany(ciphertexts2, sum);
+
+const result2 = new seal.Plaintext(decryptor, sum);
+console.log(encoder.decode(result2));

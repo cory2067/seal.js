@@ -15,6 +15,12 @@ class Evaluator : public Napi::ObjectWrap<Evaluator> {
   std::shared_ptr<seal::Evaluator> _evaluator;
 
   Napi::Value addInPlace(const Napi::CallbackInfo& info);
+  Napi::Value addMany(const Napi::CallbackInfo& info);
+  
+  Napi::Value multiplyInPlace(const Napi::CallbackInfo& info);
+  Napi::Value multiplyMany(const Napi::CallbackInfo& info);
+  
+  Napi::Value negateInPlace(const Napi::CallbackInfo& info);
 };
 
 #endif

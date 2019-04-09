@@ -24,8 +24,8 @@ Ciphertext::Ciphertext(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Cipher
     Napi::Env env = info.Env();
 
     if (info.Length() == 0) {
-        Napi::TypeError::New(env, "Expected at least 1 arg").ThrowAsJavaScriptException();
-		return;
+        // default construtor, empty ciphertext
+        this->_ciphertext = std::make_shared<seal::Ciphertext>();
     } else if (info.Length() == 1) {
         // interpret singular arg as path
         std::string path = info[0].As<Napi::String>().Utf8Value();
