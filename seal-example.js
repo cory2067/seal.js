@@ -66,7 +66,7 @@ const decryptor = new seal.Decryptor(context, sk);
 const result = new seal.Plaintext(decryptor, ciphertexts[0]);
 
 // Decode the Plaintext object into an integer
-console.log(encoder.decode(result));
+console.log("24 - 9 + 1 = " + encoder.decode(result));
 
 // Let's try it a different way
 const plaintexts2 = [
@@ -88,4 +88,11 @@ const sum = new seal.Ciphertext();
 evaluator.addMany(ciphertexts2, sum);
 
 const result2 = new seal.Plaintext(decryptor, sum);
-console.log(encoder.decode(result2));
+console.log("24 - 9 - 1 = " + encoder.decode(result2));
+
+// We can also multiply two things together
+evaluator.multiplyInPlace(ciphertexts2[0], ciphertexts2[1]);
+const result3 = new seal.Plaintext(decryptor, ciphertexts2[0]);
+
+console.log("24 * (-9) = " + encoder.decode(result3));
+

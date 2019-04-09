@@ -11,7 +11,8 @@ Napi::Object Evaluator::init(Napi::Env env, Napi::Object exports) {
   Napi::Function func = DefineClass(env, "Evaluator", {
     InstanceMethod("addInPlace", &Evaluator::addInPlace),
     InstanceMethod("addMany", &Evaluator::addMany),
-    InstanceMethod("negate", &Evaluator::negate)
+    InstanceMethod("negate", &Evaluator::negate),
+    InstanceMethod("multiplyInPlace", &Evaluator::multiplyInPlace),
   });
 
   constructor = Napi::Persistent(func);
@@ -98,6 +99,25 @@ Napi::Value Evaluator::negate(const Napi::CallbackInfo& info) {
     auto x = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
 
     this->_evaluator->negate_inplace(*x);
+
+    return env.Null();
+}
+
+Napi::Value Evaluator::multiplyInPlace(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    
+    if (info.Length() != 2) {
+        Napi::TypeError::New(env, "Expected two ciphertexts").ThrowAsJavaScriptException();
+		return env.Null();
+    }
+    
+    Napi::Object obj = info[0].As<Napi::Object>();
+    auto x = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
+    
+    obj = info[1].As<Napi::Object>();
+    auto y = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
+
+    this->_evaluator->multiply_inplace(*x, *y);
 
     return env.Null();
 }
