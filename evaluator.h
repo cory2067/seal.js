@@ -20,7 +20,7 @@ class Evaluator : public Napi::ObjectWrap<Evaluator> {
   Napi::Value multiplyInPlace(const Napi::CallbackInfo& info);
   Napi::Value multiplyMany(const Napi::CallbackInfo& info);
   
-  Napi::Value negateInPlace(const Napi::CallbackInfo& info);
+  Napi::Value negate(const Napi::CallbackInfo& info);
 };
 
 #endif

@@ -10,8 +10,8 @@ Napi::Object Evaluator::init(Napi::Env env, Napi::Object exports) {
 
   Napi::Function func = DefineClass(env, "Evaluator", {
     InstanceMethod("addInPlace", &Evaluator::addInPlace),
-    InstanceMethod("addMany", &Evaluator::addMany)
-	// no instance methods for now
+    InstanceMethod("addMany", &Evaluator::addMany),
+    InstanceMethod("negate", &Evaluator::negate)
   });
 
   constructor = Napi::Persistent(func);
@@ -43,7 +43,7 @@ std::shared_ptr<seal::Evaluator> Evaluator::getInternalInstance() {
 Napi::Value Evaluator::addInPlace(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     
-    if (info.Length() < 2) {
+    if (info.Length() != 2) {
         Napi::TypeError::New(env, "Expected two ciphertexts").ThrowAsJavaScriptException();
 		return env.Null();
     }
@@ -62,7 +62,7 @@ Napi::Value Evaluator::addInPlace(const Napi::CallbackInfo& info) {
 Napi::Value Evaluator::addMany(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     
-    if (info.Length() < 2) {
+    if (info.Length() != 2) {
         Napi::TypeError::New(env, "Expected an input and destination").ThrowAsJavaScriptException();
 		return env.Null();
     }
@@ -82,6 +82,22 @@ Napi::Value Evaluator::addMany(const Napi::CallbackInfo& info) {
     }
 
     this->_evaluator->add_many(ciphers, *destination);
+
+    return env.Null();
+}
+
+Napi::Value Evaluator::negate(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 1) {
+        Napi::TypeError::New(env, "Expected one input").ThrowAsJavaScriptException();
+		return env.Null();
+    }
+    
+    Napi::Object obj = info[0].As<Napi::Object>();
+    auto x = Napi::ObjectWrap<Ciphertext>::Unwrap(obj)->getInternalInstance();
+
+    this->_evaluator->negate_inplace(*x);
 
     return env.Null();
 }

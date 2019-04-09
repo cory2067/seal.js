@@ -68,8 +68,6 @@ const result = new seal.Plaintext(decryptor, ciphertexts[0]);
 // Decode the Plaintext object into an integer
 console.log(encoder.decode(result));
 
-////////////////////
-
 // Let's try it a different way
 const plaintexts2 = [
     new seal.Plaintext(encoder, 24),
@@ -81,6 +79,9 @@ const plaintexts2 = [
 const ciphertexts2 = plaintexts.map((plain) => {
     return new seal.Ciphertext(encryptor, plain);
 });
+
+// You can also negate a ciphertext
+evaluator.negate(ciphertexts2[2]);
 
 // You can also sum an array of ciphertexts using addMany
 const sum = new seal.Ciphertext();
