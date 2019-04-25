@@ -9,4 +9,4 @@ JavaScript bindings for SEAL homomorphic encryption library
 - To try example, run `node .`
 
 # Usage
-View the example at `seal-example.js` for usage of this node addon.
+View the example at `seal-example.js` for usage of this node addon. The examples showcase all currently-supported features.
